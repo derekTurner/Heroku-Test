@@ -1,3 +1,4 @@
+import os
 from twisted.web.server import Site
 from twisted.web.resource import Resource
 from twisted.internet import reactor, endpoints
@@ -23,6 +24,7 @@ class Calendar(Resource):
 
 root = Calendar()
 factory = Site(root)
-endpoint = endpoints.TCP4ServerEndpoint(reactor, 8880)
+endpoint = endpoints.TCP4ServerEndpoint(
+    reactor, int(os.environ.get('PORT', 8880)))
 endpoint.listen(factory)
 reactor.run()
