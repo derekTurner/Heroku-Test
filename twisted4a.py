@@ -25,6 +25,7 @@ class Calendar(Resource):
 root = Calendar()
 factory = Site(root)
 endpoint = endpoints.TCP4ServerEndpoint(
-    reactor, int(os.environ.get('PORT', 8880)))
+    reactor, 80)
+#int(os.environ.get('PORT', 8880))
 endpoint.listen(factory)
 reactor.run()
