@@ -14,18 +14,28 @@ class YearPage(Resource):
         self.year = year
 
     def render_GET(self, request):
-        cal = calendar(self.year)
-        return (b"<!DOCTYPE html><html><head><meta charset='utf-8'>"
-                b"<title></title></head><body><pre>" + cal.encode('utf-8') + "</pre>")
+        page = ("<html><body><pre>%s</pre></body></html>" %
+                (calendar(self.year),))
+        return page.encode('utf-8')
 
 
-class Calendar(Resource):
+class CalendarHome(Resource):
     def getChild(self, name, request):
-        return YearPage(int(name))
+        if name == '':
+            return self
+        if name.isdigit():
+            return YearPage(int(name))
+        else:
+            return NoResource()
+
+    def render_GET(self, request):
+        return b"<html><body>Welcome to the calendar server!</body></html>"
 
 
-root = Calendar()
+root = CalendarHome()
 factory = Site(root)
 endpoint = endpoints.TCP4ServerEndpoint(reactor, PORT)
 endpoint.listen(factory)
 reactor.run()
+
+# https://twistedmatrix.com/documents/current/web/howto/web-in-60/dynamic-dispatch.html
