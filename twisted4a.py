@@ -5,6 +5,8 @@ from twisted.internet import reactor, endpoints
 
 from calendar import calendar
 
+PORT = int(os.environ.get('PORT', 8080))
+
 
 class YearPage(Resource):
     def __init__(self, year):
@@ -24,8 +26,6 @@ class Calendar(Resource):
 
 root = Calendar()
 factory = Site(root)
-endpoint = endpoints.TCP4ServerEndpoint(
-    reactor, 80)
-#int(os.environ.get('PORT', 8880))
+endpoint = endpoints.TCP4ServerEndpoint(reactor, PORT)
 endpoint.listen(factory)
 reactor.run()
