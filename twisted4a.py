@@ -1,6 +1,6 @@
 import os
 from twisted.web.server import Site
-from twisted.web.resource import Resource
+from twisted.web.resource import Resource, NoResource
 from twisted.internet import reactor, endpoints
 
 from calendar import calendar
